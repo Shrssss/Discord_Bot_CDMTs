@@ -1,1 +1,1 @@
-TestBot以外はPush禁止（マイナーアップデートは省く）
+TestBot以外はCommit禁止（マイナーアップデートは省く）
