@@ -1,1 +1,1 @@
-TestBot以外はCommit禁止（マイナーアップデートは省く）
+現状TestBot、Readme以外はCommit禁止（マイナーアップデートは省く）
