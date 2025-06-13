@@ -1,1 +1,1 @@
-現状TestBot、Readme以外はCommit禁止（マイナーアップデートは省く）
+
