@@ -117,7 +117,7 @@ public class CodeMatesBot extends ListenerAdapter {
 	//("CommandName","CommandDiscription")
 		jda.upsertCommand("info","BOTの説明").queue();
 		jda.upsertCommand("room-status-update","活動部屋の空き状況更新。!幹部のみ実行可能").queue();
- 	jda.upsertCommand("updatelog","直近のアップデートログを表示。").queue();
+ 	jda.upsertCommand("updatelog","直近のアップデート内容の表示。").queue();
 	}
 
 	//forSlashCommand
