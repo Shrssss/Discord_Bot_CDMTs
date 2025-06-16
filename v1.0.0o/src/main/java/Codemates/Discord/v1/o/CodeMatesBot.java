@@ -81,16 +81,18 @@ class BotInfo {
 	    event.replyEmbeds(eb.build()).setEphemeral(true).queue();
 	}
 	public void printUpdateLog(SlashCommandInteractionEvent event) {
-					Embed eb =new EmbedBuilder();
+					EmbedBuilder eb =new EmbedBuilder();
 
-					String description=MessageFormat.format("[{0}]\n UpdateLogコマンドの追加");
-					eb.addField(description,false);
+					String description=MessageFormat.format("[{0}]\n UpdateLogコマンドの追加",getVersion());
+					eb.addField("更新ログ",description,false);
 					eb.setColor(Color.BLUE);
+					return;
 	}
+}
 
 public class CodeMatesBot extends ListenerAdapter {
 	private static JDA jda = null;
-	private static final String BOT_TOKEN = System.getenv("DISCORD_BOT_TOKEN");;
+	private static final String BOT_TOKEN = "";;
 	private static final BotInfo botinfo = new BotInfo();
 	private static final CircleInfo circleinfo=new CircleInfo();
 
@@ -103,9 +105,6 @@ public class CodeMatesBot extends ListenerAdapter {
 		botinfo.setDeveloper("RyosukeNagashima");
 		botinfo.setUpdate("16/06/25 DD/MM/YY");
 		
-//Channel,RoleID
-		String BotChannelID="任意のチャンネルID";//Bot用TextChannel
-		String ExecuteRoleID="任意のロールID";//幹部ロール
 		
 		jda = JDABuilder.createDefault(BOT_TOKEN)
                 .setRawEventsEnabled(true)
@@ -129,22 +128,22 @@ public class CodeMatesBot extends ListenerAdapter {
 	        switch(cmd) {
 	            //room-status-updateコマンド　ロールによる実行制限
 	            case "room-status-update"-> {
-	            	if(hasRoleById(event,ExecuteRoleID)){
+	            	//if(hasRoleById(event,ExecuteRoleID)){
 	            		outmsg="部屋の開き状況を選択してください。";
 	            		event.reply(outmsg).setEphemeral(true).addActionRow(
 	            				Button.primary("unlock", "解錠"),
 	            				Button.danger("lock","施錠")
 	            		).queue();
-	            	}else {event.reply("実行する権限がありません。").setEphemeral(true).queue();}
+	            	//}else {event.reply("実行する権限がありません。").setEphemeral(true).queue();}
 	            }
 	            //infoコマンド
 	            case "info" -> {
 	            	botinfo.printBotInfo(event);
 	            }
-													//updatelogコマンド
-													case "updatelog" -> {
-														botinfo.printUpdateLog(event);
-													}
+				//updatelogコマンド
+				case "updatelog" -> {
+					botinfo.printUpdateLog(event);
+				}
 	            default -> event.reply("不明なコマンドです。\n").setEphemeral(true).queue();
 	        }
 	    }
@@ -152,7 +151,7 @@ public class CodeMatesBot extends ListenerAdapter {
 	    //forButton
 	    @Override
 	    public void onButtonInteraction(ButtonInteractionEvent event) {
-	    	TextChannel channel = jda.getTextChannelById(BotChannelID);
+	    	TextChannel channel = jda.getTextChannelById("1384067026871390208");
 	        if (channel == null) return;
 	        
 	        switch (event.getComponentId()) {
@@ -169,10 +168,10 @@ public class CodeMatesBot extends ListenerAdapter {
 	        }
 	    }
 	    
-	    private boolean hasRoleById(SlashCommandInteractionEvent event, String roleId) {
-	    	return event.getMember() != null &&
-	        event.getMember().getRoles().stream().anyMatch(role -> role.getId().equals(roleId));
-	    }
+//	    private boolean hasRoleById(SlashCommandInteractionEvent event, String roleId) {
+//	    	return event.getMember() != null &&
+//	        event.getMember().getRoles().stream().anyMatch(role -> role.getId().equals(roleId));
+//	    }
 	    //日付が変わった場合、施錠状態にする
 	    public static void dailyReset() {
 	        Calendar calendar = Calendar.getInstance();
@@ -180,4 +179,4 @@ public class CodeMatesBot extends ListenerAdapter {
 	                circleinfo.setRoomOC(false);
 	        }
 	    }
-}
+	}
