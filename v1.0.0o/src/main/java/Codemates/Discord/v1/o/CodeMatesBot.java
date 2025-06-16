@@ -80,7 +80,13 @@ class BotInfo {
 
 	    event.replyEmbeds(eb.build()).setEphemeral(true).queue();
 	}
-}
+	public void printUpdateLog(SlashCommandInteractionEvent event) {
+					Embed eb =new EmbedBuilder();
+
+					String description=MessageFormat.format("[{0}]\n UpdateLogコマンドの追加");
+					eb.addField(description,false);
+					eb.setColor(Color.BLUE);
+	}
 
 public class CodeMatesBot extends ListenerAdapter {
 	private static JDA jda = null;
@@ -93,7 +99,7 @@ public class CodeMatesBot extends ListenerAdapter {
 		circleinfo.setRoomID("エッグドーム5階　研修室1,2");
 		
 		//BotInfo
-		botinfo.setVersion("v1.0.1o");
+		botinfo.setVersion("v1.0.2o");
 		botinfo.setDeveloper("RyosukeNagashima");
 		botinfo.setUpdate("16/06/25 DD/MM/YY");
 		
@@ -111,6 +117,7 @@ public class CodeMatesBot extends ListenerAdapter {
 	//("CommandName","CommandDiscription")
 		jda.upsertCommand("info","BOTの説明").queue();
 		jda.upsertCommand("room-status-update","活動部屋の空き状況更新。!幹部のみ実行可能").queue();
+ 	jda.upsertCommand("updatelog","直近のアップデートログを表示。").queue();
 	}
 
 	//forSlashCommand
@@ -134,6 +141,10 @@ public class CodeMatesBot extends ListenerAdapter {
 	            case "info" -> {
 	            	botinfo.printBotInfo(event);
 	            }
+													//updatelogコマンド
+													case "updatelog" -> {
+														botinfo.printUpdateLog(event);
+													}
 	            default -> event.reply("不明なコマンドです。\n").setEphemeral(true).queue();
 	        }
 	    }
