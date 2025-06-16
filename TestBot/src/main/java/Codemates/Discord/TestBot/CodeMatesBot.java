@@ -97,7 +97,11 @@ public class CodeMatesBot extends ListenerAdapter {
 		//BotInfo
 		botinfo.setVersion("Closed-Test");
 		botinfo.setDeveloper("RyosukeNagashima");
-		botinfo.setUpdate("12/06/25 DD/MM/YY");
+		botinfo.setUpdate("16/06/25 DD/MM/YY");
+
+		//Channel,RoleID
+		String BotChannelID="1382708384221888562";//Bot用TextChannel
+		String ExecuteRoleID="1382708559120306238";//幹部ロール
 		
 		
 		jda = JDABuilder.createDefault(BOT_TOKEN)
@@ -149,7 +153,7 @@ public class CodeMatesBot extends ListenerAdapter {
 //	            }
 	            //room-status-updateコマンド　ロールによる実行制限
 	            case "room-oc-update"-> {
-	            	if(hasRoleById(event,"1382708559120306238")){
+	            	if(hasRoleById(event,ExecuteRoleID)){
 	            		outmsg="部屋の開き状況を選択してください。";
 	            		event.reply(outmsg).setEphemeral(true).addActionRow(
 	            				Button.primary("unlock", "解錠"),
@@ -168,7 +172,7 @@ public class CodeMatesBot extends ListenerAdapter {
 	    //forButton
 	    @Override
 	    public void onButtonInteraction(ButtonInteractionEvent event) {
-	    	TextChannel channel = jda.getTextChannelById("1382708384221888562");
+	    	TextChannel channel = jda.getTextChannelById(BotChannelID);
 	        if (channel == null) return;
 	        
 	        switch (event.getComponentId()) {
