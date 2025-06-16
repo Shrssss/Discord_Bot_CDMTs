@@ -41,6 +41,13 @@ class CircleInfo {
 		    eb.setColor(Color.BLUE);
 		    channel.sendMessageEmbeds(eb.build()).queue();
 		}
+		public void printUpdateLog(SlashCommandInteractionEvent event) {
+					Embed eb =new EmbedBuilder();
+
+					String description=MessageFormat.format("[{0}]\n UpdateLogコマンドの追加");
+					eb.addField(description,false);
+					eb.setColor(Color.BLUE);
+	}
 }
 
 class BotInfo {
@@ -116,6 +123,7 @@ public class CodeMatesBot extends ListenerAdapter {
 		//jda.upsertCommand("room-status","活動部屋の場所と開き状況確認。").queue(); // !!!!OUTDATED!!!!
 		jda.upsertCommand("room-oc-update","活動部屋の空き状況更新。!幹部のみ実行可能").queue();
 		//jda.upsertCommand("room-id-update","活動部屋の場所を更新。 !幹部のみ実行可能").queue(); //要相談
+		jda.upsertCommand("updatelog","直近のアップデート内容の表示。").queue();
 		
 		/*	方針
 		 * 1.サークル部屋の鍵空き情報。（スラッシュコマンドによるトグル式） done
@@ -165,6 +173,10 @@ public class CodeMatesBot extends ListenerAdapter {
 	            case "info" -> {
 	            	botinfo.printBotInfo(event);
 	            }
+
+														case "updatelog" -> {
+															botinfo.printUpdateLog(event);
+														}
 	            default -> event.reply("不明なコマンドです。\n").setEphemeral(true).queue();
 	        }
 	    }
