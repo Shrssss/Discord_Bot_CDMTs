@@ -100,7 +100,7 @@ public class CodeMatesBot extends ListenerAdapter {
 		circleinfo.setRoomID("エッグドーム5階　研修室1,2");
 		
 		//BotInfo
-		botinfo.setVersion("v1.1.0o");
+		botinfo.setVersion("v1.1.1o");
 		botinfo.setDeveloper("RyosukeNagashima");
 		botinfo.setUpdate("17/06/25 DD/MM/YY");
 		
