@@ -92,7 +92,7 @@ class BotInfo {
 
 public class CodeMatesBot extends ListenerAdapter {
 	private static JDA jda = null;
-	private static final String BOT_TOKEN = "";;
+	private static final String BOT_TOKEN = System.getenv("DISCORD_BOT_TOKEN");
 	private static final BotInfo botinfo = new BotInfo();
 	private static final CircleInfo circleinfo=new CircleInfo();
 
