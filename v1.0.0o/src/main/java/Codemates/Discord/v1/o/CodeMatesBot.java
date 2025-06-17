@@ -83,7 +83,7 @@ class BotInfo {
 	public void printUpdateLog(SlashCommandInteractionEvent event) {
 					EmbedBuilder eb =new EmbedBuilder();
 
-					String description=MessageFormat.format("[{0}]\n UpdateLogコマンドの追加",getVersion());
+					String description=MessageFormat.format("[{0}]\n 常時稼働化",getVersion());
 					eb.addField("更新ログ",description,false);
 					eb.setColor(Color.BLUE);
 					return;
@@ -101,9 +101,9 @@ public class CodeMatesBot extends ListenerAdapter {
 		circleinfo.setRoomID("エッグドーム5階　研修室1,2");
 		
 		//BotInfo
-		botinfo.setVersion("v1.0.2o");
+		botinfo.setVersion("v1.1.0o");
 		botinfo.setDeveloper("RyosukeNagashima");
-		botinfo.setUpdate("16/06/25 DD/MM/YY");
+		botinfo.setUpdate("17/06/25 DD/MM/YY");
 		
 		
 		jda = JDABuilder.createDefault(BOT_TOKEN)
@@ -116,7 +116,7 @@ public class CodeMatesBot extends ListenerAdapter {
 	//("CommandName","CommandDiscription")
 		jda.upsertCommand("info","BOTの説明").queue();
 		jda.upsertCommand("room-status-update","活動部屋の空き状況更新。!幹部のみ実行可能").queue();
- 	jda.upsertCommand("updatelog","直近のアップデート内容の表示。").queue();
+ 		jda.upsertCommand("updatelog","直近のアップデート内容の表示。").queue();
 	}
 
 	//forSlashCommand
@@ -167,11 +167,6 @@ public class CodeMatesBot extends ListenerAdapter {
             	}
 	        }
 	    }
-	    
-//	    private boolean hasRoleById(SlashCommandInteractionEvent event, String roleId) {
-//	    	return event.getMember() != null &&
-//	        event.getMember().getRoles().stream().anyMatch(role -> role.getId().equals(roleId));
-//	    }
 	    //日付が変わった場合、施錠状態にする
 	    public static void dailyReset() {
 	        Calendar calendar = Calendar.getInstance();
