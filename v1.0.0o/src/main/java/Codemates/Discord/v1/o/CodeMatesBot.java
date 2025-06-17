@@ -86,6 +86,7 @@ class BotInfo {
 					String description=MessageFormat.format("[{0}]\n 常時稼働化。",this.getVersion());
 					eb.addField("更新ログ",description,false);
 					eb.setColor(Color.BLUE);
+		event.replyEmbeds(eb.build()).setEphemeral(true).queue();
 	}
 }
 
