@@ -83,7 +83,7 @@ class BotInfo {
 	public void printUpdateLog(SlashCommandInteractionEvent event) {
 					EmbedBuilder eb =new EmbedBuilder();
 
-					String description=MessageFormat.format("[{0}]\n 常時稼働化。",this.getVersion());
+					String description=MessageFormat.format("[{0}]\n 常時稼働化及び細かなバグの修正。",this.getVersion());
 					eb.addField("更新ログ",description,false);
 					eb.setColor(Color.BLUE);
 		event.replyEmbeds(eb.build()).setEphemeral(true).queue();
@@ -101,7 +101,7 @@ public class CodeMatesBot extends ListenerAdapter {
 		circleinfo.setRoomID("エッグドーム5階　研修室1,2");
 		
 		//BotInfo
-		botinfo.setVersion("v1.1.1o");
+		botinfo.setVersion("v1.1.2o");
 		botinfo.setDeveloper("RyosukeNagashima");
 		botinfo.setUpdate("17/06/25 DD/MM/YY");
 		
@@ -167,10 +167,10 @@ public class CodeMatesBot extends ListenerAdapter {
             	}
 	        }
 	    }
-	    //日付が変わった場合、施錠状態にする
+	    //21時になった場合、施錠状態にする
 	    public static void dailyReset() {
 	        Calendar calendar = Calendar.getInstance();
-	        if (calendar.get(Calendar.HOUR_OF_DAY) == 0) {
+	        if (calendar.get(Calendar.HOUR_OF_DAY) == 21) {
 	                circleinfo.setRoomOC(false);
 	        }
 	    }
