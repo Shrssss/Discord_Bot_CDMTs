@@ -83,10 +83,9 @@ class BotInfo {
 	public void printUpdateLog(SlashCommandInteractionEvent event) {
 					EmbedBuilder eb =new EmbedBuilder();
 
-					String description=MessageFormat.format("[{0}]\n 常時稼働化",getVersion());
+					String description=MessageFormat.format("[{0}]\n 常時稼働化。",this.getVersion());
 					eb.addField("更新ログ",description,false);
 					eb.setColor(Color.BLUE);
-					return;
 	}
 }
 
