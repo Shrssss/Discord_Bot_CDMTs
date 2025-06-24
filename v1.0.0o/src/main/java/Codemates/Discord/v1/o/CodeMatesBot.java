@@ -14,8 +14,16 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import javax.security.auth.login.LoginException;
 
 import java.awt.Color;
+
 import java.text.MessageFormat;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.Calendar;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 class CircleInfo {
 	private String roomid="未定義";
@@ -36,10 +44,10 @@ class CircleInfo {
 	public void printRoomInfo(TextChannel channel) {
 		EmbedBuilder eb=new EmbedBuilder();
 		String status=this.getRoomOC()?"開いています" : "閉まっています";
-			eb.addField("部屋情報",MessageFormat.format("\nステータス: {0}\n活動場所: {1}", status, this.getRoomID()), false);
+			eb.addField("部屋情報",MessageFormat.format("\nステータス: {0}\n活動場所: {1}",status,this.getRoomID()),false);
 		    eb.setColor(Color.BLUE);
 		    channel.sendMessageEmbeds(eb.build()).queue();
-		}
+    }
 }
 
 class BotInfo {
@@ -69,43 +77,64 @@ class BotInfo {
 	    EmbedBuilder eb = new EmbedBuilder();
 
 	    String description = "このBOTはCodeMates-DiscordServerの利便性向上を目的としています。";
-	    String versionInfo = MessageFormat.format(
+	    String versioninfo = MessageFormat.format(
 	        "\nVersion: {0}\nDeveloper: {1}\nLastUpdate: {2}",
 	        this.getVersion(),
 	        this.getDeveloper(),
 	        this.getUpdate()
 	    );
-	    eb.addField(description, versionInfo, false);
+	    eb.addField(description, versioninfo, false);
 	    eb.setColor(Color.BLUE);
 
 	    event.replyEmbeds(eb.build()).setEphemeral(true).queue();
 	}
-	public void printUpdateLog(SlashCommandInteractionEvent event) {
-					EmbedBuilder eb =new EmbedBuilder();
+	public void printUpdateInfo(SlashCommandInteractionEvent event) {
+		EmbedBuilder eb =new EmbedBuilder();
 
-					String description=MessageFormat.format("[{0}]\n 常時稼働化及び細かなバグの修正。",this.getVersion());
-					eb.addField("更新ログ",description,false);
+		String description=MessageFormat.format("[{0}]\n /helpコマンドの実装、施錠状態をリセットするメソッドの修正、内部コードの変更。",this.getVersion());
+					eb.addField("更新内容",description,false);
 					eb.setColor(Color.BLUE);
 		event.replyEmbeds(eb.build()).setEphemeral(true).queue();
 	}
+    public void printHelp(SlashCommandInteractionEvent event,ArrayList<String> cmdname,Map<String,String> cmdinfo) {
+        EmbedBuilder eb=new EmbedBuilder();
+            eb.setTitle("コマンド一覧");
+            for (String name : cmdname) {
+                String command="/"+name;
+                String description=cmdinfo.getOrDefault(name, "説明がありません。");
+                eb.addField(command,description,false);
+            }
+            eb.setColor(Color.BLUE);
+        event.replyEmbeds(eb.build()).setEphemeral(true).queue();
+    }
+    
 }
+
 
 public class CodeMatesBot extends ListenerAdapter {
 	private static JDA jda = null;
 	private static final String BOT_TOKEN = System.getenv("DISCORD_BOT_TOKEN");
 	private static final BotInfo botinfo = new BotInfo();
 	private static final CircleInfo circleinfo=new CircleInfo();
+	private static final ArrayList<String> cmdname=new ArrayList<>();
+	private static final Map<String,String> cmdinfo=new HashMap<>();
 
 	public static void main(String[] args) throws LoginException{
 		//CircleInfo
 		circleinfo.setRoomID("エッグドーム5階　研修室1,2");
 		
 		//BotInfo
-		botinfo.setVersion("v1.1.2o");
+		botinfo.setVersion("v1.2.0o");
 		botinfo.setDeveloper("RyosukeNagashima");
-		botinfo.setUpdate("17/06/25 DD/MM/YY");
+		botinfo.setUpdate("24/06/25 DD/MM/YY");
 		
-		
+        //CommandArray
+        cmdname.add("info");cmdname.add("help");cmdname.add("updateinfo");cmdname.add("room-status-update");
+        
+        cmdinfo.put(cmdname.get(0),"BOTの説明を表示。");cmdinfo.put(cmdname.get(1),"コマンド一覧の表示。");
+        cmdinfo.put(cmdname.get(2),"直近のアップデート内容の表示。");cmdinfo.put(cmdname.get(3),"活動部屋の空き状況を更新。");
+        
+        
 		jda = JDABuilder.createDefault(BOT_TOKEN)
                 .setRawEventsEnabled(true)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
@@ -113,10 +142,18 @@ public class CodeMatesBot extends ListenerAdapter {
                 .setActivity(Activity.playing("オープンテスト段階"))
                 .build();
 		jda.updateCommands().queue();
+    
+        for(int i=0;i<cmdinfo.size();i++) {
+            jda.upsertCommand(cmdname.get(i),cmdinfo.get(cmdname.get(i))).queue();
+        }
+        
+        dailyReset(); //毎時、時間を参照
+        
 	//("CommandName","CommandDiscription")
-		jda.upsertCommand("info","BOTの説明").queue();
-		jda.upsertCommand("room-status-update","活動部屋の空き状況更新。!幹部のみ実行可能").queue();
- 		jda.upsertCommand("updatelog","直近のアップデート内容の表示。").queue();
+		// jda.upsertCommand("info","BOTの説明を表示。").queue();
+        // jda.upsertCommand("help","コマンド一覧の表示。").queue();
+		// jda.upsertCommand("room-status-update","活動部屋の空き状況を更新。!幹部のみ実行可能").queue();
+     	// 	jda.upsertCommand("updatelog","直近のアップデート内容の表示。").queue();
 	}
 
 	//forSlashCommand
@@ -125,53 +162,70 @@ public class CodeMatesBot extends ListenerAdapter {
 	  String cmd=event.getName();//ReceiveCommand
 	  String outmsg="";
 
+
+
+            //hasRoleでUpdateAnnounce作りたい
+
+            
 	        switch(cmd) {
-	            //room-status-updateコマンド　ロールによる実行制限
+	            //room-status-updateコマンド
 	            case "room-status-update"-> {
-	            	//if(hasRoleById(event,ExecuteRoleID)){
 	            		outmsg="部屋の開き状況を選択してください。";
-	            		event.reply(outmsg).setEphemeral(true).addActionRow(
+    	            	event.reply(outmsg).setEphemeral(true).addActionRow(
 	            				Button.primary("unlock", "解錠"),
 	            				Button.danger("lock","施錠")
 	            		).queue();
-	            	//}else {event.reply("実行する権限がありません。").setEphemeral(true).queue();}
 	            }
 	            //infoコマンド
 	            case "info" -> {
 	            	botinfo.printBotInfo(event);
 	            }
-				//updatelogコマンド
-				case "updatelog" -> {
-					botinfo.printUpdateLog(event);
-				}
+				 //updatelogコマンド
+				 case "updateinfo" -> {
+					botinfo.printUpdateInfo(event);
+				 }
+                //helpコマンド
+                case "help" -> {
+                    botinfo.printHelp(event,cmdname,cmdinfo);
+                }
 	            default -> event.reply("不明なコマンドです。\n").setEphemeral(true).queue();
 	        }
 	    }
 
+        //スパム対策のタイムアウト実装したいよね
+        
 	    //forButton
 	    @Override
 	    public void onButtonInteraction(ButtonInteractionEvent event) {
-	    	TextChannel channel = jda.getTextChannelById("1384067026871390208");
+	    	//TextChannel channel = jda.getTextChannelById("1384067026871390208");
+	    	TextChannel channel = jda.getTextChannelById("1382708384221888562"); //THIS ID IS FOR TEST SERVER
 	        if (channel == null) return;
 	        
 	        switch (event.getComponentId()) {
             	case "unlock" -> {
-            		circleinfo.setRoomOC(true);
-            		event.reply("「解錠」に更新しました。").setEphemeral(true).queue();
-            		circleinfo.printRoomInfo(channel);
+                    if(circleinfo.getRoomOC()==false){
+                		circleinfo.setRoomOC(true);
+                		event.reply("「解錠」に更新しました。").setEphemeral(true).queue();
+                		circleinfo.printRoomInfo(channel);
+                    }else event.reply("既に解錠されています。").setEphemeral(true).queue();
             	}
             	case "lock" -> {
-            		circleinfo.setRoomOC(false);
-            		event.reply("「施錠」に更新しました。今日もお疲れ様でした。").setEphemeral(true).queue();
-            		circleinfo.printRoomInfo(channel);
+                    if(circleinfo.getRoomOC()==true){
+                		circleinfo.setRoomOC(false);
+                		event.reply("「施錠」に更新しました。今日もお疲れ様でした。").setEphemeral(true).queue();
+                		circleinfo.printRoomInfo(channel);
+                    }else event.reply("既に施錠されています。").setEphemeral(true).queue();
             	}
 	        }
 	    }
 	    //21時になった場合、施錠状態にする
 	    public static void dailyReset() {
-	        Calendar calendar = Calendar.getInstance();
-	        if (calendar.get(Calendar.HOUR_OF_DAY) == 21) {
-	                circleinfo.setRoomOC(false);
-	        }
+	    	ScheduledExecutorService scheduler=Executors.newScheduledThreadPool(1); //1本のスレッド
+	        scheduler.scheduleAtFixedRate(() -> {
+	        	Calendar calendar = Calendar.getInstance();
+		        if (calendar.get(Calendar.HOUR_OF_DAY)==21) {
+		                circleinfo.setRoomOC(false);
+		                }
+	        },0,1,TimeUnit.HOURS); //(処理内容,遅延,実行間隔,時間単位)
 	    }
 	}
