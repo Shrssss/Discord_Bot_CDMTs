@@ -197,8 +197,8 @@ public class CodeMatesBot extends ListenerAdapter {
 	    //forButton
 	    @Override
 	    public void onButtonInteraction(ButtonInteractionEvent event) {
-	    	//TextChannel channel = jda.getTextChannelById("1384067026871390208");
-	    	TextChannel channel = jda.getTextChannelById("1382708384221888562"); //THIS ID IS FOR TEST SERVER
+	    	TextChannel channel = jda.getTextChannelById("1384067026871390208");
+	    	//TextChannel channel = jda.getTextChannelById("1382708384221888562"); //THIS ID IS FOR TEST SERVER
 	        if (channel == null) return;
 	        
 	        switch (event.getComponentId()) {
