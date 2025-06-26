@@ -218,12 +218,12 @@ public class CodeMatesBot extends ListenerAdapter {
             	}
 	        }
 	    }
-	    //21時になった場合、施錠状態にする
+	    //UTC12時(21時)になった場合、施錠状態にする
 	    public static void dailyReset() {
 	    	ScheduledExecutorService scheduler=Executors.newScheduledThreadPool(1); //1本のスレッド
 	        scheduler.scheduleAtFixedRate(() -> {
 	        	Calendar calendar = Calendar.getInstance();
-		        if (calendar.get(Calendar.HOUR_OF_DAY)==21) {
+		        if (calendar.get(Calendar.HOUR_OF_DAY)==12) {
 		                circleinfo.setRoomOC(false);
 		                }
 	        },0,1,TimeUnit.HOURS); //(処理内容,遅延,実行間隔,時間単位)
