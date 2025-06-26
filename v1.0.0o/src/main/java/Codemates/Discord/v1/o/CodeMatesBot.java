@@ -91,7 +91,7 @@ class BotInfo {
 	public void printUpdateInfo(SlashCommandInteractionEvent event) {
 		EmbedBuilder eb =new EmbedBuilder();
 
-		String description=MessageFormat.format("[{0}]\n /helpコマンドの実装、施錠状態をリセットするメソッドの修正、内部コードの変更。",this.getVersion());
+		String description=MessageFormat.format("[{0}]\n dailyResetメソッドをUTC基準に変更。",this.getVersion());
 					eb.addField("更新内容",description,false);
 					eb.setColor(Color.BLUE);
 		event.replyEmbeds(eb.build()).setEphemeral(true).queue();
@@ -124,9 +124,9 @@ public class CodeMatesBot extends ListenerAdapter {
 		circleinfo.setRoomID("エッグドーム5階　研修室1,2");
 		
 		//BotInfo
-		botinfo.setVersion("v1.2.0o");
+		botinfo.setVersion("v1.2.1o");
 		botinfo.setDeveloper("RyosukeNagashima");
-		botinfo.setUpdate("24/06/25 DD/MM/YY");
+		botinfo.setUpdate("26/06/25 DD/MM/YY");
 		
         //CommandArray
         cmdname.add("info");cmdname.add("help");cmdname.add("updateinfo");cmdname.add("room-status-update");
@@ -148,12 +148,6 @@ public class CodeMatesBot extends ListenerAdapter {
         }
         
         dailyReset(); //毎時、時間を参照
-        
-	//("CommandName","CommandDiscription")
-		// jda.upsertCommand("info","BOTの説明を表示。").queue();
-        // jda.upsertCommand("help","コマンド一覧の表示。").queue();
-		// jda.upsertCommand("room-status-update","活動部屋の空き状況を更新。!幹部のみ実行可能").queue();
-     	// 	jda.upsertCommand("updatelog","直近のアップデート内容の表示。").queue();
 	}
 
 	//forSlashCommand
