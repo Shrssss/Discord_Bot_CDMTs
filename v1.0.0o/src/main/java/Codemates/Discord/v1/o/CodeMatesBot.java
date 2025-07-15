@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 class CircleInfo {
 	private String roomid="未定義";
-	private boolean roomoc=false;
+	private boolean roomoc=false;　//roomop に変更
 	
 	public void setRoomID(String roomid) {
 		this.roomid=roomid;
@@ -119,7 +119,7 @@ public class CodeMatesBot extends ListenerAdapter {
 	private static final ArrayList<String> cmdname=new ArrayList<>();
 	private static final Map<String,String> cmdinfo=new HashMap<>();
 
-	public static void main(String[] args) throws LoginException{
+	public static void main(String[] args) throws LoginException{ //消すか、ちゃんと例外処理する
 		//CircleInfo
 		circleinfo.setRoomID("エッグドーム5階　研修室1,2");
 		
@@ -133,7 +133,7 @@ public class CodeMatesBot extends ListenerAdapter {
         
         cmdinfo.put(cmdname.get(0),"BOTの説明を表示。");cmdinfo.put(cmdname.get(1),"コマンド一覧の表示。");
         cmdinfo.put(cmdname.get(2),"直近のアップデート内容の表示。");cmdinfo.put(cmdname.get(3),"活動部屋の空き状況を更新。");
-        
+        	//record使うようにする
         
 		jda = JDABuilder.createDefault(BOT_TOKEN)
                 .setRawEventsEnabled(true)
