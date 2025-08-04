@@ -11,8 +11,6 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
-import javax.security.auth.login.LoginException;
-
 import java.awt.Color;
 
 import java.text.MessageFormat;
@@ -27,7 +25,7 @@ import java.util.ArrayList;
 
 class CircleInfo {
 	private String roomid="未定義";
-	private boolean roomoc=false;　//roomop に変更
+	private boolean roomop=false;
 	
 	public void setRoomID(String roomid) {
 		this.roomid=roomid;
@@ -36,10 +34,10 @@ class CircleInfo {
 		return roomid;
 	}
 	public void setRoomOC(boolean roomoc) {
-		this.roomoc=roomoc;
+		this.roomop=roomoc;
 	}
 	public boolean getRoomOC() {
-		return roomoc;
+		return roomop;
 	}
 	public void printRoomInfo(TextChannel channel) {
 		EmbedBuilder eb=new EmbedBuilder();
@@ -76,7 +74,7 @@ class BotInfo {
 	public void printBotInfo(SlashCommandInteractionEvent event) {
 	    EmbedBuilder eb = new EmbedBuilder();
 
-	    String description = "このBOTはCodeMates-DiscordServerの利便性向上を目的としています。";
+	    String description = "このBOTはCODEMATES-DiscordServerの利便性向上を目的としています。";
 	    String versioninfo = MessageFormat.format(
 	        "\nVersion: {0}\nDeveloper: {1}\nLastUpdate: {2}",
 	        this.getVersion(),
@@ -91,7 +89,7 @@ class BotInfo {
 	public void printUpdateInfo(SlashCommandInteractionEvent event) {
 		EmbedBuilder eb =new EmbedBuilder();
 
-		String description=MessageFormat.format("[{0}]\n dailyResetメソッドをUTC基準に変更。",this.getVersion());
+		String description=MessageFormat.format("[{0}]\n メジャーアップデートに向けたリファクタリング。（機能追加やバグ修正なし）",this.getVersion());
 					eb.addField("更新内容",description,false);
 					eb.setColor(Color.BLUE);
 		event.replyEmbeds(eb.build()).setEphemeral(true).queue();
@@ -119,35 +117,40 @@ public class CodeMatesBot extends ListenerAdapter {
 	private static final ArrayList<String> cmdname=new ArrayList<>();
 	private static final Map<String,String> cmdinfo=new HashMap<>();
 
-	public static void main(String[] args) throws LoginException{ //消すか、ちゃんと例外処理する
-		//CircleInfo
-		circleinfo.setRoomID("エッグドーム5階　研修室1,2");
+	public static void main(String[] args) {
+		try {
+			//CircleInfo
+			circleinfo.setRoomID("エッグドーム5階　研修室1,2");
+			
+			//BotInfo
+			botinfo.setVersion("v1.2.2o");
+			botinfo.setDeveloper("R.N.");
+			botinfo.setUpdate("04/08/25 DD/MM/YY");
+			
+	        //CommandArray
+	        cmdname.add("info");cmdname.add("help");cmdname.add("updateinfo");cmdname.add("room-status-update");
+	        
+	        cmdinfo.put(cmdname.get(0),"BOTの説明を表示。");cmdinfo.put(cmdname.get(1),"コマンド一覧の表示。");
+	        cmdinfo.put(cmdname.get(2),"直近のアップデート内容の表示。");cmdinfo.put(cmdname.get(3),"活動部屋の空き状況を更新。");
+	        
+			jda = JDABuilder.createDefault(BOT_TOKEN)
+	                .setRawEventsEnabled(true)
+	                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+	                .addEventListeners(new CodeMatesBot())
+	                .setActivity(Activity.playing("v2リリースに向け開発中..."))
+	                .build();
+			jda.updateCommands().queue();
+	    
+	        for(int i=0;i<cmdinfo.size();i++) {
+	            jda.upsertCommand(cmdname.get(i),cmdinfo.get(cmdname.get(i))).queue();
+	        }
+	        
+	        dailyReset(); //毎時、時間を参照
+		}catch(RuntimeException e) {
+			System.err.println("起動失敗：" + e.getMessage());
+	        e.printStackTrace();
+		}
 		
-		//BotInfo
-		botinfo.setVersion("v1.2.1o");
-		botinfo.setDeveloper("RyosukeNagashima");
-		botinfo.setUpdate("26/06/25 DD/MM/YY");
-		
-        //CommandArray
-        cmdname.add("info");cmdname.add("help");cmdname.add("updateinfo");cmdname.add("room-status-update");
-        
-        cmdinfo.put(cmdname.get(0),"BOTの説明を表示。");cmdinfo.put(cmdname.get(1),"コマンド一覧の表示。");
-        cmdinfo.put(cmdname.get(2),"直近のアップデート内容の表示。");cmdinfo.put(cmdname.get(3),"活動部屋の空き状況を更新。");
-        	//record使うようにする
-        
-		jda = JDABuilder.createDefault(BOT_TOKEN)
-                .setRawEventsEnabled(true)
-                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
-                .addEventListeners(new CodeMatesBot())
-                .setActivity(Activity.playing("オープンテスト段階"))
-                .build();
-		jda.updateCommands().queue();
-    
-        for(int i=0;i<cmdinfo.size();i++) {
-            jda.upsertCommand(cmdname.get(i),cmdinfo.get(cmdname.get(i))).queue();
-        }
-        
-        dailyReset(); //毎時、時間を参照
 	}
 
 	//forSlashCommand
@@ -156,11 +159,6 @@ public class CodeMatesBot extends ListenerAdapter {
 	  String cmd=event.getName();//ReceiveCommand
 	  String outmsg="";
 
-
-
-            //hasRoleでUpdateAnnounce作りたい
-
-            
 	        switch(cmd) {
 	            //room-status-updateコマンド
 	            case "room-status-update"-> {
@@ -185,9 +183,7 @@ public class CodeMatesBot extends ListenerAdapter {
 	            default -> event.reply("不明なコマンドです。\n").setEphemeral(true).queue();
 	        }
 	    }
-
-        //スパム対策のタイムアウト実装したいよね
-        
+	 
 	    //forButton
 	    @Override
 	    public void onButtonInteraction(ButtonInteractionEvent event) {
@@ -212,6 +208,7 @@ public class CodeMatesBot extends ListenerAdapter {
             	}
 	        }
 	    }
+	    
 	    //UTC12時(21時)になった場合、施錠状態にする
 	    public static void dailyReset() {
 	    	ScheduledExecutorService scheduler=Executors.newScheduledThreadPool(1); //1本のスレッド
