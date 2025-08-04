@@ -107,7 +107,7 @@ public static void main(String[] args) throws LoginException{
 
 　を行っています。<br>
  <br>
- 見たらわかると思いますが、LoginExceptionへ例外を投げています。これは、JDAの`.enableIntents(GatewayIntent.MESSAGE_CONTENT)`が例外を吐くときがあるためです。
+ 見たらわかると思いますが、try-catchで例外処理をしています。これはBotが何らかの要因で起動失敗した際に開発側で分かりやすくするためです。
 
  ## onSlashCommandInteractionメソッド (154-187行)
   ```
@@ -156,7 +156,7 @@ TextChannel channel = jda.getTextChannelById("1384067026871390208");
 switch (event.getComponentId()) {
             	case "unlock" -> {
                     if(circleinfo.getRoomOC()==false){
-                		circleinfo.setRoomOC(true);
+                		circleinfo.setRoomOP(true);
                 		event.reply("「解錠」に更新しました。").setEphemeral(true).queue();
                 		circleinfo.printRoomInfo(channel);
                     }else event.reply("既に解錠されています。").setEphemeral(true).queue();
@@ -168,7 +168,7 @@ public static void dailyReset() {
         //コード...
 }
 ```
-このメソッドは、日本時間の21時に変数`roomoc`の値を`false`に上書きするメソッドです。<br>
+このメソッドは、日本時間の21時に変数`roomop`の値を`false`に上書きするメソッドです。<br>
 毎時間、時間を確認し、UTC12時になった場合`false`に変更するようにしています。<br>
 また、毎時間繰り返し処理を行う必要があるため、`scheduler`というものを使っています。<br>
 <br>
@@ -183,9 +183,9 @@ public static void dailyReset() {
 | 変数、メソッド名  | 説明 |
 | ------------- | ------------- |
 | roomid  | [変数String]  　部屋の場所。（別館65階404号室など...）  |
-| roomoc  | [変数boolean]  　部屋の開き、締まり。trueは開き、falseは締まり。  |
-| setRoomID,setRoomOC  | [メソッド]  　変数のセッター。 |
-| getRoomID,getRoomOC  | [メソッド]  　変数のゲッター。 |
+| roomop  | [変数boolean]  　部屋の開き、締まり。trueは開き、falseは締まり。  |
+| setRoomID,setRoomOP  | [メソッド]  　変数のセッター。 |
+| getRoomID,getRoomOP  | [メソッド]  　変数のゲッター。 |
 | printRoomInfo  | [メソッド]  　チャンネルIDを引数とし、そのチャンネルに部屋の開き状況を送信する。　|
 
  このクラスは、サークルの基本情報に関するクラスです。変数に関するゲッターとセッター、サークル活動部屋の情報を返す`printRoomInfo`メソッドが含まれます。
