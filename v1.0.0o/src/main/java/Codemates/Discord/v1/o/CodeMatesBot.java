@@ -33,15 +33,15 @@ class CircleInfo {
 	public String getRoomID() {
 		return roomid;
 	}
-	public void setRoomOC(boolean roomoc) {
+	public void setRoomOP(boolean roomoc) {
 		this.roomop=roomoc;
 	}
-	public boolean getRoomOC() {
+	public boolean getRoomOP() {
 		return roomop;
 	}
 	public void printRoomInfo(TextChannel channel) {
 		EmbedBuilder eb=new EmbedBuilder();
-		String status=this.getRoomOC()?"開いています" : "閉まっています";
+		String status=this.getRoomOP()?"開いています" : "閉まっています";
 			eb.addField("部屋情報",MessageFormat.format("\nステータス: {0}\n活動場所: {1}",status,this.getRoomID()),false);
 		    eb.setColor(Color.BLUE);
 		    channel.sendMessageEmbeds(eb.build()).queue();
@@ -193,15 +193,15 @@ public class CodeMatesBot extends ListenerAdapter {
 	        
 	        switch (event.getComponentId()) {
             	case "unlock" -> {
-                    if(circleinfo.getRoomOC()==false){
-                		circleinfo.setRoomOC(true);
+                    if(circleinfo.getRoomOP()==false){
+                		circleinfo.setRoomOP(true);
                 		event.reply("「解錠」に更新しました。").setEphemeral(true).queue();
                 		circleinfo.printRoomInfo(channel);
                     }else event.reply("既に解錠されています。").setEphemeral(true).queue();
             	}
             	case "lock" -> {
-                    if(circleinfo.getRoomOC()==true){
-                		circleinfo.setRoomOC(false);
+                    if(circleinfo.getRoomOP()==true){
+                		circleinfo.setRoomOP(false);
                 		event.reply("「施錠」に更新しました。今日もお疲れ様でした。").setEphemeral(true).queue();
                 		circleinfo.printRoomInfo(channel);
                     }else event.reply("既に施錠されています。").setEphemeral(true).queue();
@@ -215,7 +215,7 @@ public class CodeMatesBot extends ListenerAdapter {
 	        scheduler.scheduleAtFixedRate(() -> {
 	        	Calendar calendar = Calendar.getInstance();
 		        if (calendar.get(Calendar.HOUR_OF_DAY)==12) {
-		                circleinfo.setRoomOC(false);
+		                circleinfo.setRoomOP(false);
 		                }
 	        },0,1,TimeUnit.HOURS); //(処理内容,遅延,実行間隔,時間単位)
 	    }
