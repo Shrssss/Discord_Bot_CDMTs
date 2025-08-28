@@ -33,8 +33,7 @@ import java.util.Map;
 
 public class Main extends ListenerAdapter {
 	private static JDA jda = null;
-	//private static final String BOT_TOKEN = System.getenv("DISCORD_BOT_TOKEN");
-	private static final String BOT_TOKEN ="NTIwMTY0Nzk0Mzg5NjI2OTAx.GJFuAI.rGeacia-9RKGpqFmFt6bjW19nVbCIz7DHRkxOM";
+	private static final String BOT_TOKEN = System.getenv("DISCORD_BOT_TOKEN");
 	private static final BotInfo BOT_INFO = new BotInfo();
 	private static final CircleInfo CIRCLE_INFO=new CircleInfo();
 	
