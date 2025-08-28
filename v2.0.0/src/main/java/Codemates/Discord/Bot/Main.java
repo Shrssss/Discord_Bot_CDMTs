@@ -37,8 +37,8 @@ public class Main extends ListenerAdapter {
 	private static final BotInfo BOT_INFO = new BotInfo();
 	private static final CircleInfo CIRCLE_INFO=new CircleInfo();
 	
-	//public static final String CHANNEL_ID ="1384067026871390208";
-	public static final String CHANNEL_ID ="1382708384221888562"; //THIS ID IS FOR TEST SERVER
+	public static final String CHANNEL_ID ="1384067026871390208";
+	//public static final String CHANNEL_ID ="1382708384221888562"; //THIS ID IS FOR TEST SERVER
 	
 
 	public static void main(String[] args) {
