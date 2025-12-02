@@ -14,27 +14,27 @@ import java.util.Map;
 
 public class Main extends ListenerAdapter {
 	private static JDA jda = null;
-	//private static final String BOT_TOKEN = System.getenv("DISCORD_BOT_TOKEN");
-	private static final String BOT_TOKEN="";
+	private static final String BOT_TOKEN = System.getenv("DISCORD_BOT_TOKEN"); //本番環境
+	public static final String CHANNEL_ID ="1384067026871390208"; //本番環境
+//	private static final String BOT_TOKEN=""; //テスト環境
+//	public static final String CHANNEL_ID="1382708384221888562"; //テスト環境
+	
 	private static final BotInfo BOT_INFO = new BotInfo();
 	private static final CircleInfo CIRCLE_INFO=new CircleInfo();
-
-	//public static final String CHANNEL_ID ="1384067026871390208";
-	public static final String CHANNEL_ID="1382708384221888562"; //THIS ID IS FOR TEST SERVER
 
 	public static void main(String[] args) {
 		try {
 			
 			//BotInfo
-			BOT_INFO.setVersion("v2.0.0ct");
+			BOT_INFO.setVersion("v2.0.0at");
 			BOT_INFO.setDeveloper("R.N.");
-			BOT_INFO.setUpdate("08/11/25 DD/MM/YY");
+			BOT_INFO.setUpdate("02/12/25 DD/MM/YY");
 	        
 			jda = JDABuilder.createDefault(BOT_TOKEN)
 	                .setRawEventsEnabled(true)
 	                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
 	                .addEventListeners(new Main())
-	                .setActivity(Activity.playing("closed test"))
+	                .setActivity(Activity.playing("open test"))
 	                .build();
 			jda.updateCommands().queue();
 	    
@@ -76,7 +76,8 @@ public class Main extends ListenerAdapter {
                 }
                 //announceコマンド
                 case"announce"->{
-                	//1247737958560174130 <- 本番
+                	//1247737958560174130 <- 本番role
+                	//1382708559120306238 <- テスト
                 	if(Utility.hasRoleById(event.getMember(),"1382708559120306238")==true) {
                     	BOT_INFO.printAnnounce(event,channel);
                     	event.reply("送信完了。").setEphemeral(true).queue();

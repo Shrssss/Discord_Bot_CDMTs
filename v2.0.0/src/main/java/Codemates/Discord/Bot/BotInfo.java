@@ -32,8 +32,10 @@ class BotInfo {
 		return update;
 	}
 	
-	public static final String UPDATE_INFO="v2用フルテキスト";
-	public static final String EASY_UPDATE_INFO="v2用省略テキスト";
+	public static final String UPDATE_INFO="このバージョンはオープンテストです。正式リリースでは貸出物の管理を行えるようにする予定です。";
+	public static final String EASY_UPDATE_INFO="/announceコマンドの追加"
+													+ "\nコマンド名の変更(/room-status-update)"
+													+ "\n/roomコマンドで部屋を指定できるように変更";
 	
 	
 	
@@ -76,9 +78,11 @@ class BotInfo {
     
     public void printAnnounce(SlashCommandInteractionEvent event,TextChannel channel) {
         EmbedBuilder eb=new EmbedBuilder();
-        	eb.setTitle(MessageFormat.format("[{0}]　更新内容",this.getVersion()));
+        	eb.setTitle(MessageFormat.format("[{0}]",this.getVersion()));
 
-        	eb.addField("あいうえお",BotInfo.UPDATE_INFO,false);
+        	eb.addField("更新内容",BotInfo.UPDATE_INFO,false);
+        	eb.addField("詳細",BotInfo.EASY_UPDATE_INFO,false);
+        	eb.addField("","(Botの操作に不具合がある場合は、Discordを再起動してください。)",false);
 
         	eb.setColor(Color.BLUE);
         	channel.sendMessageEmbeds(eb.build()).queue();
