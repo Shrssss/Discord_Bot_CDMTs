@@ -26,7 +26,7 @@ public class Main extends ListenerAdapter {
 		try {
 			
 			//BotInfo
-			BOT_INFO.setVersion("v2.0.0at");
+			BOT_INFO.setVersion("v2.0.0ot");
 			BOT_INFO.setDeveloper("R.N.");
 			BOT_INFO.setUpdate("02/12/25 DD/MM/YY");
 	        
