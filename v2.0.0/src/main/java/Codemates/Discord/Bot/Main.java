@@ -76,9 +76,9 @@ public class Main extends ListenerAdapter {
                 }
                 //announceコマンド
                 case"announce"->{
-                	//1247737958560174130 <- 本番role
+                	//1247737193774977094 <- 本番role
                 	//1382708559120306238 <- テスト
-                	if(Utility.hasRoleById(event.getMember(),"1382708559120306238")==true) {
+                	if(Utility.hasRoleById(event.getMember(),"1247737193774977094")==true) {
                     	BOT_INFO.printAnnounce(event,channel);
                     	event.reply("送信完了。").setEphemeral(true).queue();
                 	} else event.reply("実行権限を持っていません。").setEphemeral(true).queue();
