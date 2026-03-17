@@ -1,10 +1,11 @@
-package Codemates.Discord.Bot;
+package Codemates.Discord.Bot.util;
 
 import java.util.Calendar;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import Codemates.Discord.Bot.info.CircleInfo;
 import net.dv8tion.jda.api.entities.Member;
 
 public class Utility {

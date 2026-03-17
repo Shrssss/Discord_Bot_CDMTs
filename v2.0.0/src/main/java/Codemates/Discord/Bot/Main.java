@@ -10,6 +10,11 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import java.util.Map;
 
+import Codemates.Discord.Bot.commands.CommandData;
+import Codemates.Discord.Bot.info.BotInfo;
+import Codemates.Discord.Bot.info.CircleInfo;
+import Codemates.Discord.Bot.util.Utility;
+
 
 
 public class Main extends ListenerAdapter {
@@ -30,19 +35,35 @@ public class Main extends ListenerAdapter {
 			BOT_INFO.setDeveloper("R.N.");
 			BOT_INFO.setUpdate("02/12/25 DD/MM/YY");
 	        
+			
+			
+			
 			jda = JDABuilder.createDefault(BOT_TOKEN)
 	                .setRawEventsEnabled(true)
 	                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
 	                .addEventListeners(new Main())
 	                .setActivity(Activity.playing("open test"))
 	                .build();
+			
 			jda.updateCommands().queue();
+			
+			
+			//DetaBase.connect();
+			
+			
 	    
 	        for(Map.Entry<String,String> ent:CommandData.CMD_INFO.entrySet()) {
 	            jda.upsertCommand(ent.getKey(),ent.getValue()).queue();
 	        }
 	        
+	        
+	        
+	        
 	        Utility.dailyReset(CIRCLE_INFO); //毎時、時間を参照
+	        
+	        
+	        
+	        
 	        
 		}catch(RuntimeException e) {
 			System.err.println("起動失敗：" + e.getMessage());

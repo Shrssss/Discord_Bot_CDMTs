@@ -1,4 +1,4 @@
-package Codemates.Discord.Bot;
+package Codemates.Discord.Bot.info;
 
 import java.awt.Color;
 import java.text.MessageFormat;
@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
-class BotInfo {
+public class BotInfo {
 	private String version;
 	private String developer;
 	private String update;

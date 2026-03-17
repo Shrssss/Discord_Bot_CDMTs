@@ -1,4 +1,4 @@
-package Codemates.Discord.Bot;
+package Codemates.Discord.Bot.info;
 
 import java.awt.Color;
 import java.text.MessageFormat;
@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 
-class CircleInfo {
+public class CircleInfo {
 	private String roomid="";
 	private boolean roomop=false;
 	

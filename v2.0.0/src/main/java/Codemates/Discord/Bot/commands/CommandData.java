@@ -1,4 +1,4 @@
-package Codemates.Discord.Bot;
+package Codemates.Discord.Bot.commands;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
