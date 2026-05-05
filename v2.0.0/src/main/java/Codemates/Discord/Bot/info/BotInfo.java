@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 public class BotInfo {
+	
 	private String version;
 	private String developer;
 	private String update;
@@ -87,4 +88,5 @@ public class BotInfo {
         	eb.setColor(Color.BLUE);
         	channel.sendMessageEmbeds(eb.build()).queue();
     }
+    
 }

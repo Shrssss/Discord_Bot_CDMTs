@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class CommandData {
+	
 	public static final Map<String,String> CMD_INFO=createCommandInfo();
 	
 	private static Map<String,String> createCommandInfo() {
@@ -16,4 +17,5 @@ public class CommandData {
         
         return map;
 	}
+	
 }

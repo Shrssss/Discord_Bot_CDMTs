@@ -15,9 +15,8 @@ import Codemates.Discord.Bot.info.BotInfo;
 import Codemates.Discord.Bot.info.CircleInfo;
 import Codemates.Discord.Bot.util.Utility;
 
-
-
 public class Main extends ListenerAdapter {
+	
 	private static JDA jda = null;
 	private static final String BOT_TOKEN = System.getenv("DISCORD_BOT_TOKEN"); //本番環境
 	public static final String CHANNEL_ID ="1384067026871390208"; //本番環境
@@ -72,9 +71,9 @@ public class Main extends ListenerAdapter {
 		
 	}
 
-	//forSlashCommand
-	 @Override
-	    public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+		//forSlashCommand
+	 	@Override
+	 	public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
 		 TextChannel channel=jda.getTextChannelById(CHANNEL_ID);
 		 String cmd=event.getName();//ReceiveCommand
 	  
@@ -161,6 +160,8 @@ public class Main extends ListenerAdapter {
             	case "no"->{
             		CIRCLE_INFO.printRoomOpenClose(event);
             	}
+            	
 	        }
 	    }
+	    
 	}
