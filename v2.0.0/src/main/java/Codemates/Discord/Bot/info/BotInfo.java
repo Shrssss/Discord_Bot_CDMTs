@@ -2,13 +2,14 @@ package Codemates.Discord.Bot.info;
 
 import java.awt.Color;
 import java.text.MessageFormat;
-import java.util.Map;
 
+import Codemates.Discord.Bot.commands.CommandData;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 public class BotInfo {
+	private CommandData commandData;
 	
 	private String version;
 	private String developer;
@@ -65,12 +66,12 @@ public class BotInfo {
 		event.replyEmbeds(eb.build()).setEphemeral(true).queue();
 	}
 	
-    public void printHelp(SlashCommandInteractionEvent event,Map<String,String> cmdinfo) {
+    public void printHelp(SlashCommandInteractionEvent event) {
         EmbedBuilder eb=new EmbedBuilder();
             eb.setTitle("コマンド一覧");
-            for (Map.Entry<String,String> ent:cmdinfo.entrySet()) {
-                String command="/"+ent.getKey();
-                String description=cmdinfo.getOrDefault(ent.getKey(), "説明がありません。");
+            for (CommandData cmd : CommandData.values()) {
+                String command="/"+cmd.getName();
+                String description=cmd.getDescription();
                 eb.addField(command,description,false);
             }
             eb.setColor(Color.BLUE);
