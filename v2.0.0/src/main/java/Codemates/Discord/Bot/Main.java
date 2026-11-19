@@ -29,9 +29,9 @@ public class Main extends ListenerAdapter {
 		try {
 			
 			//BotInfo
-			BOT_INFO.setVersion("v2.0.0ot");
-			BOT_INFO.setDeveloper("R.N.");
-			BOT_INFO.setUpdate("02/12/25 DD/MM/YY");
+			BOT_INFO.setVersion("v2.1.0");
+			BOT_INFO.setDeveloper("R.N. , S.T.");
+			BOT_INFO.setUpdate("19/11/26 DD/MM/YY");
 	        
 			
 			
@@ -46,9 +46,6 @@ public class Main extends ListenerAdapter {
 			jda.updateCommands().queue();
 			
 			
-			//DetaBase.connect();
-			
-			
 	    
 	        for (CommandData cmd : CommandData.values()) {
 	            jda.upsertCommand(cmd.getName(),cmd.getDescription()).queue();
@@ -57,7 +54,7 @@ public class Main extends ListenerAdapter {
 	        
 	        
 	        
-	        Utility.dailyReset(CIRCLE_INFO); //毎時、時間を参照
+	        Utility.dailyReset(CIRCLE_INFO);
 	        
 	        
 	        

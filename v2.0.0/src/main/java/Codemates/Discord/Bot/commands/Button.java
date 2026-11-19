@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class Button extends ListenerAdapter {
     private static final JDA jda = Main.jda();
-    public static final String CHANNEL_ID = Main.CHANNEL_ID; //本番環境
+    public static final String CHANNEL_ID = Main.CHANNEL_ID;
 
 	private static final CircleInfo CIRCLE_INFO=new CircleInfo();
     @Override
