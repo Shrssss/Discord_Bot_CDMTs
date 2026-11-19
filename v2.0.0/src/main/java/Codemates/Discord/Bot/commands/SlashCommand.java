@@ -36,7 +36,7 @@ public class SlashCommand extends ListenerAdapter {
 				 }
                 //helpコマンド
                 case"help"->{
-                    BOT_INFO.printHelp(event,CommandData.CMD_INFO);
+					BOT_INFO.printHelp(event);
                 }
                 //announceコマンド
                 case"announce"->{

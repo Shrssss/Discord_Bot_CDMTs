@@ -1,21 +1,27 @@
 package Codemates.Discord.Bot.commands;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+public enum CommandData {
+	
+        BOT_INFO("botinfo","BOTの説明を表示。"),
+        HELP("help","コマンド一覧の表示。"),
+        UPDATE_INFO("updateinfo","直近のアップデート内容の表示。"),
+        ROOM("room","活動部屋の空き状況を更新。"),
+        ANNOUNCE("announce", "開発者用");
 
-public class CommandData {
-	
-	public static final Map<String,String> CMD_INFO=createCommandInfo();
-	
-	private static Map<String,String> createCommandInfo() {
-		Map<String,String> map=new LinkedHashMap<>();
-        map.put("botinfo","BOTの説明を表示。");
-        map.put("help","コマンド一覧の表示。");
-        map.put("updateinfo","直近のアップデート内容の表示。");
-        map.put("room","活動部屋の空き状況を更新。");
-        map.put("announce", "開発者用");
-        
-        return map;
+        private final String name;
+        private final String description;
+
+        CommandData(String name, String description) {
+            this.name = name;
+            this.description = description;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
 	}
-	
-}

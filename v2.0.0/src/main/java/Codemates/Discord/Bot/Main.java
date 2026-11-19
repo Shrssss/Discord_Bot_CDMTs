@@ -1,7 +1,5 @@
 package Codemates.Discord.Bot;
 
-import java.util.Map;
-
 import Codemates.Discord.Bot.commands.Button;
 import Codemates.Discord.Bot.commands.CommandData;
 import Codemates.Discord.Bot.commands.SlashCommand;
@@ -52,8 +50,8 @@ public class Main extends ListenerAdapter {
 			
 			
 	    
-	        for(Map.Entry<String,String> ent:CommandData.CMD_INFO.entrySet()) {
-	            jda.upsertCommand(ent.getKey(),ent.getValue()).queue();
+	        for (CommandData cmd : CommandData.values()) {
+	            jda.upsertCommand(cmd.getName(),cmd.getDescription()).queue();
 	        }
 	        
 	        
